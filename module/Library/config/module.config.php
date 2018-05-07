@@ -115,7 +115,7 @@ return [
                 'class' => \Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
                 'cache' => 'array',
                 'paths' => [
-                    0 => './module/Library/src/V1/Entity',
+                    0 => './module/Library/Entity',
                 ],
             ],
             'orm_default' => [
