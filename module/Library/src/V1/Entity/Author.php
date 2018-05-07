@@ -1,5 +1,5 @@
 <?php
-namespace Application\Entity;
+namespace Library\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="authors")
  */
-class Comment
+class Author
 {
     /**
      * @ORM\Id
@@ -22,7 +22,7 @@ class Comment
     protected $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="\Application\Entity\Book", mappedBy="author")
+     * @ORM\OneToMany(targetEntity="Library\Entity\Book", mappedBy="author")
      * @ORM\JoinColumn(name="id", referencedColumnName="author_id")
      */
     protected $books;
@@ -81,6 +81,6 @@ class Comment
     }
 
 
-    
-    
+
+
 }

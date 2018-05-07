@@ -29,13 +29,8 @@ class BooksController extends AbstractActionController
 
     public function booksAction()
     {
-        var_dump($this->em);exit;
-        $serviceLocator = $this->getApplication()->getServiceLocator();
-        $objectManager = $serviceLocator->get('doctrine.entitymanager.orm_default');
-        var_dump($objectManager);exit;
-
         $repo = $this->em->getRepository('Entity\Book');
-
+        var_dump($repo);exit;
 
         $categorias = $repo->findAll();
         return new ViewModel(['categories'=>$categorias]);

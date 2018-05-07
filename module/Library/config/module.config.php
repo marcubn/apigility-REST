@@ -2,8 +2,9 @@
 return [
     'controllers' => [
         'factories' => [
-            'Library\\V1\\Rpc\\Books\\BooksController' => Library\V1\Rpc\Books\BooksControllerFactory::class,
+            \Library\V1\Rpc\Books\BooksController::class => \Library\V1\Rpc\Books\BooksControllerFactory::class,
             'Library\\V1\\Rpc\\Authors\\Controller' => \Library\V1\Rpc\Authors\AuthorsControllerFactory::class,
+            'Library\\V1\\Rpc\\Book\\Controller' => \Library\V1\Rpc\Book\BookControllerFactory::class,
         ],
     ],
     'router' => [
@@ -13,7 +14,7 @@ return [
                 'options' => [
                     'route' => '/book',
                     'defaults' => [
-                        'controller' => 'Library\\V1\\Rpc\\Books\\BooksController',
+                        'controller' => \Library\V1\Rpc\Books\BooksController::class,
                         'action' => 'books',
                     ],
                 ],
@@ -28,12 +29,23 @@ return [
                     ],
                 ],
             ],
+            'library.rpc.book' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/book/:id',
+                    'defaults' => [
+                        'controller' => 'Library\\V1\\Rpc\\Book\\Controller',
+                        'action' => 'book',
+                    ],
+                ],
+            ],
         ],
     ],
     'zf-versioning' => [
         'uri' => [
             0 => 'library.rpc.books',
             1 => 'library.rpc.authors',
+            2 => 'library.rpc.book',
         ],
     ],
     'zf-rpc' => [
@@ -51,11 +63,19 @@ return [
             ],
             'route_name' => 'library.rpc.authors',
         ],
+        'Library\\V1\\Rpc\\Book\\Controller' => [
+            'service_name' => 'Book',
+            'http_methods' => [
+                0 => 'GET',
+            ],
+            'route_name' => 'library.rpc.book',
+        ],
     ],
     'zf-content-negotiation' => [
         'controllers' => [
             'Library\\V1\\Rpc\\Books\\Controller' => 'Json',
             'Library\\V1\\Rpc\\Authors\\Controller' => 'Json',
+            'Library\\V1\\Rpc\\Book\\Controller' => 'Json',
         ],
         'accept_whitelist' => [
             'Library\\V1\\Rpc\\Books\\Controller' => [
@@ -64,6 +84,11 @@ return [
                 2 => 'application/*+json',
             ],
             'Library\\V1\\Rpc\\Authors\\Controller' => [
+                0 => 'application/vnd.library.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ],
+            'Library\\V1\\Rpc\\Book\\Controller' => [
                 0 => 'application/vnd.library.v1+json',
                 1 => 'application/json',
                 2 => 'application/*+json',
@@ -78,21 +103,24 @@ return [
                 0 => 'application/vnd.library.v1+json',
                 1 => 'application/json',
             ],
+            'Library\\V1\\Rpc\\Book\\Controller' => [
+                0 => 'application/vnd.library.v1+json',
+                1 => 'application/json',
+            ],
         ],
     ],
     'doctrine' => [
         'driver' => [
-            __NAMESPACE__ . '_driver' => [
-                'class' => Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
+            'Library_driver' => [
+                'class' => \Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
                 'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/' . __NAMESPACE__ . '/Entity')
-                /*'paths' => [
-                    0 => __DIR__ . '/../src//Entity',
-                ],*/
+                'paths' => [
+                    0 => './module/Library/src/V1/Entity',
+                ],
             ],
             'orm_default' => [
                 'drivers' => [
-                    __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver'
+                    'Library' => 'Library_driver',
                 ],
             ],
         ],

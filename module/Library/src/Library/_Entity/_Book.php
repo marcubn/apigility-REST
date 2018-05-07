@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="authors")
  */
-class Book
+class _Book
 {
 
     /**
@@ -23,7 +23,7 @@ class Book
     protected $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Application\Entity\Author", inversedBy="book")
+     * @ORM\ManyToOne(targetEntity="Library\Entity\Author", inversedBy="book")
      * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
      */
     protected $author;
