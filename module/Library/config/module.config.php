@@ -36,6 +36,25 @@ return [
                     'defaults' => [
                         'controller' => 'Library\\V1\\Rpc\\Book\\Controller',
                         'action' => 'book',
+                        'id' => 'id',
+                    ],
+                ],
+            ],
+            'library.rest.boks' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/boks[/:boks_id]',
+                    'defaults' => [
+                        'controller' => 'Library\\V1\\Rest\\Boks\\Controller',
+                    ],
+                ],
+            ],
+            'library.rest.athor' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/athor[/:athor_id]',
+                    'defaults' => [
+                        'controller' => 'Library\\V1\\Rest\\Athor\\Controller',
                     ],
                 ],
             ],
@@ -46,6 +65,8 @@ return [
             0 => 'library.rpc.books',
             1 => 'library.rpc.authors',
             2 => 'library.rpc.book',
+            3 => 'library.rest.boks',
+            4 => 'library.rest.athor',
         ],
     ],
     'zf-rpc' => [
@@ -67,6 +88,7 @@ return [
             'service_name' => 'Book',
             'http_methods' => [
                 0 => 'GET',
+                1 => 'POST',
             ],
             'route_name' => 'library.rpc.book',
         ],
@@ -76,6 +98,8 @@ return [
             'Library\\V1\\Rpc\\Books\\Controller' => 'Json',
             'Library\\V1\\Rpc\\Authors\\Controller' => 'Json',
             'Library\\V1\\Rpc\\Book\\Controller' => 'Json',
+            'Library\\V1\\Rest\\Boks\\Controller' => 'HalJson',
+            'Library\\V1\\Rest\\Athor\\Controller' => 'HalJson',
         ],
         'accept_whitelist' => [
             'Library\\V1\\Rpc\\Books\\Controller' => [
@@ -93,6 +117,16 @@ return [
                 1 => 'application/json',
                 2 => 'application/*+json',
             ],
+            'Library\\V1\\Rest\\Boks\\Controller' => [
+                0 => 'application/vnd.library.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
+            'Library\\V1\\Rest\\Athor\\Controller' => [
+                0 => 'application/vnd.library.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
         ],
         'content_type_whitelist' => [
             'Library\\V1\\Rpc\\Books\\Controller' => [
@@ -104,6 +138,14 @@ return [
                 1 => 'application/json',
             ],
             'Library\\V1\\Rpc\\Book\\Controller' => [
+                0 => 'application/vnd.library.v1+json',
+                1 => 'application/json',
+            ],
+            'Library\\V1\\Rest\\Boks\\Controller' => [
+                0 => 'application/vnd.library.v1+json',
+                1 => 'application/json',
+            ],
+            'Library\\V1\\Rest\\Athor\\Controller' => [
                 0 => 'application/vnd.library.v1+json',
                 1 => 'application/json',
             ],
@@ -129,6 +171,9 @@ return [
         'Library\\V1\\Rpc\\Books\\Controller' => [
             'input_filter' => 'Library\\V1\\Rpc\\Books\\Validator',
         ],
+        'Library\\V1\\Rpc\\Book\\Controller' => [
+            'input_filter' => 'Library\\V1\\Rpc\\Book\\Validator',
+        ],
     ],
     'input_filter_specs' => [
         'Library\\V1\\Rpc\\Books\\Validator' => [
@@ -137,6 +182,80 @@ return [
                 'validators' => [],
                 'filters' => [],
                 'name' => 'test',
+            ],
+        ],
+        'Library\\V1\\Rpc\\Book\\Validator' => [],
+    ],
+    'service_manager' => [
+        'factories' => [
+            \Library\V1\Rest\Book\BookResource::class => \Library\V1\Rest\Book\BookResourceFactory::class,
+            \Library\V1\Rest\Boks\BoksResource::class => \Library\V1\Rest\Boks\BoksResourceFactory::class,
+            \Library\V1\Rest\Athor\AthorResource::class => \Library\V1\Rest\Athor\AthorResourceFactory::class,
+        ],
+    ],
+    'zf-rest' => [
+        'Library\\V1\\Rest\\Boks\\Controller' => [
+            'listener' => \Library\V1\Rest\Boks\BoksResource::class,
+            'route_name' => 'library.rest.boks',
+            'route_identifier_name' => 'boks_id',
+            'collection_name' => 'boks',
+            'entity_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \Library\V1\Rest\Boks\BoksEntity::class,
+            'collection_class' => \Library\V1\Rest\Boks\BoksCollection::class,
+            'service_name' => 'boks',
+        ],
+        'Library\\V1\\Rest\\Athor\\Controller' => [
+            'listener' => \Library\V1\Rest\Athor\AthorResource::class,
+            'route_name' => 'library.rest.athor',
+            'route_identifier_name' => 'athor_id',
+            'collection_name' => 'athor',
+            'entity_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \Library\V1\Rest\Athor\AthorEntity::class,
+            'collection_class' => \Library\V1\Rest\Athor\AthorCollection::class,
+            'service_name' => 'athor',
+        ],
+    ],
+    'zf-hal' => [
+        'metadata_map' => [
+            \Library\V1\Rest\Boks\BoksEntity::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'library.rest.boks',
+                'route_identifier_name' => 'boks_id',
+                'hydrator' => \DoctrineModule\Stdlib\Hydrator\DoctrineObject::class,
+            ],
+            \Library\V1\Rest\Boks\BoksCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'library.rest.boks',
+                'route_identifier_name' => 'boks_id',
+                'is_collection' => true,
+            ],
+            \Library\V1\Rest\Athor\AthorEntity::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'library.rest.athor',
+                'route_identifier_name' => 'athor_id',
+                'hydrator' => \DoctrineModule\Stdlib\Hydrator\DoctrineObject::class,
+            ],
+            \Library\V1\Rest\Athor\AthorCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'library.rest.athor',
+                'route_identifier_name' => 'athor_id',
+                'is_collection' => true,
             ],
         ],
     ],

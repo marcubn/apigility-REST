@@ -15,6 +15,11 @@ class BookController extends AbstractActionController
 
     public function bookAction()
     {
+        $data   = $this->getRequest()->getContent();
+        var_dump($data);exit;
+        $projects = $this->getMapper()->findAll();
+        var_dump($projects);exit;
+        $ceva = $this->getEvent()->getRouteMatch()->getParam('dataset_id');
         $repo = $this->em->getRepository(Book::class);
         var_dump($repo);exit;
     }
