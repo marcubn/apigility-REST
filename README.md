@@ -3,18 +3,18 @@ ToDo 1 - clean the project a little (remove test classes/files etc)
 ToDo 2 - refactor code
 
 The project is created on localhost:
-http://localhost:8080/apigility/ui#//module/Library/1
+http://test.lan/apigility/ui#//module/Library/1
 
 The links i used are:
 
-http://test.lan/athor/3
+http://test.lan/author/3
 RESPONSE:
-{"Author":"Suzanne Collins","Books":["The Hunger Games","Catching Fire","MockingJay"],"_links":{"self":{"href":"http:\/\/localhost:8080\/athor\/3"}}}
+{"Author":"Suzanne Collins","Books":["The Hunger Games","Catching Fire","MockingJay"],"_links":{"self":{"href":"http:\/\/localhost:8080\/author\/3"}}}
 
 
-http://test.lan/boks/3
+http://test.lan/books/3
 RESPONSE:
-{"Book Title":"MockingJay","Author":"Suzanne Collins","_links":{"self":{"href":"http:\/\/localhost:8080\/boks\/3"}}}
+{"Book Title":"MockingJay","Author":"Suzanne Collins","_links":{"self":{"href":"http:\/\/localhost:8080\/books\/3"}}}
 
 SOME REFACTORING ARE IN ORDER FOR THE FUTURE (created only the simple calls):
 

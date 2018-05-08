@@ -1,11 +1,19 @@
 <?php
-namespace Library\V1\Rest\Book;
+namespace Library\V1\Rest\Books;
 
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
+use Doctrine\ORM\EntityManager;
 
-class BookResource extends AbstractResourceListener
+class BooksResource extends AbstractResourceListener
 {
+
+    protected $em;
+
+    public function __construct(EntityManager $em) {
+        $this->em = $em;
+    }
+
     /**
      * Create a resource
      *
@@ -47,7 +55,15 @@ class BookResource extends AbstractResourceListener
      */
     public function fetch($id)
     {
-        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
+        if (!$this->validateId()) {
+            return new ApiProblem(400, 'incorect parameter');
+        }
+
+        $repo = $this->em->getRepository(BooksEntity::class);
+        $book = $repo->find($id);
+        $title = $book->getTitle();
+        $author = $book->getAuthor()->getName();
+        return ["Book Title" => $title, "Author" => $author];
     }
 
     /**
@@ -105,5 +121,16 @@ class BookResource extends AbstractResourceListener
     public function update($id, $data)
     {
         return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
+    }
+
+    /**
+     * Function vor validation of id (numeric, unique - depending on validation requests)
+     * Should be moved to a parent class to be used by multiple resources
+     *
+     * @return bool
+     */
+    public function validateId()
+    {
+        return true;
     }
 }

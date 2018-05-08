@@ -33,5 +33,4 @@ return [
     'DoctrineORMModule',
     'Application',
     'Library',
-    'Super',
 ];

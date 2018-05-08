@@ -1,14 +1,16 @@
 <?php
 namespace Library\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="authors")
  */
-class _Author
+class Author
 {
+
     /**
      * @ORM\Id
      * @ORM\Column(name="id")
@@ -22,14 +24,14 @@ class _Author
     protected $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Library\Entity\Book", mappedBy="author")
-     * @ORM\JoinColumn(name="id", referencedColumnName="author_id")
+     * @ORM\OneToMany(targetEntity="Library\Entity\Books", mappedBy="author")
      */
     protected $books;
 
+
     /**
      * Constructor.
-     */
+    */
     public function __construct()
     {
         $this->books = new ArrayCollection();
@@ -69,7 +71,7 @@ class _Author
      */
     public function getBooks()
     {
-        return $this->books;
+        return $this->books->toArray();
     }
 
     /**
@@ -79,8 +81,4 @@ class _Author
     {
         $this->books[] = $book;
     }
-
-
-    
-    
 }

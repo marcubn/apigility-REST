@@ -5,9 +5,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="authors")
+ * @ORM\Table(name="books")
  */
-class _Book
+class Books
 {
 
     /**
@@ -23,8 +23,8 @@ class _Book
     protected $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Library\Entity\Author", inversedBy="book")
-     * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Library\Entity\Author", inversedBy="books")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", nullable=FALSE)
      */
     protected $author;
 
@@ -66,10 +66,7 @@ class _Book
     public function setAuthor($author)
     {
         $this->author = $author;
-        $author->addBook($this);
+        return $this;
     }
-
-
-
 
 }

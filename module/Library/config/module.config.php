@@ -2,44 +2,11 @@
 return [
     'controllers' => [
         'factories' => [
-            \Library\V1\Rpc\Books\BooksController::class => \Library\V1\Rpc\Books\BooksControllerFactory::class,
-            'Library\\V1\\Rpc\\Authors\\Controller' => \Library\V1\Rpc\Authors\AuthorsControllerFactory::class,
-            'Library\\V1\\Rpc\\Book\\Controller' => \Library\V1\Rpc\Book\BookControllerFactory::class,
+            'Library\\V1\\Rpc\\Books\\BooksController' => 'Library\\V1\\Rpc\\Books\\BooksControllerFactory',
         ],
     ],
     'router' => [
         'routes' => [
-            'library.rpc.books' => [
-                'type' => 'Segment',
-                'options' => [
-                    'route' => '/book',
-                    'defaults' => [
-                        'controller' => \Library\V1\Rpc\Books\BooksController::class,
-                        'action' => 'books',
-                    ],
-                ],
-            ],
-            'library.rpc.authors' => [
-                'type' => 'Segment',
-                'options' => [
-                    'route' => '/author/:id',
-                    'defaults' => [
-                        'controller' => 'Library\\V1\\Rpc\\Authors\\Controller',
-                        'action' => 'authors',
-                    ],
-                ],
-            ],
-            'library.rpc.book' => [
-                'type' => 'Segment',
-                'options' => [
-                    'route' => '/book/:id',
-                    'defaults' => [
-                        'controller' => 'Library\\V1\\Rpc\\Book\\Controller',
-                        'action' => 'book',
-                        'id' => 'id',
-                    ],
-                ],
-            ],
             'library.rest.boks' => [
                 'type' => 'Segment',
                 'options' => [
@@ -58,94 +25,78 @@ return [
                     ],
                 ],
             ],
+            'library.rest.books' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/books[/:books_id]',
+                    'defaults' => [
+                        'controller' => 'Library\\V1\\Rest\\Books\\Controller',
+                    ],
+                ],
+            ],
+            'library.rest.author' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/author[/:author_id]',
+                    'defaults' => [
+                        'controller' => 'Library\\V1\\Rest\\Author\\Controller',
+                    ],
+                ],
+            ],
         ],
     ],
     'zf-versioning' => [
         'uri' => [
-            0 => 'library.rpc.books',
-            1 => 'library.rpc.authors',
-            2 => 'library.rpc.book',
             3 => 'library.rest.boks',
             4 => 'library.rest.athor',
+            0 => 'library.rest.books',
+            5 => 'library.rest.author',
         ],
     ],
-    'zf-rpc' => [
-        'Library\\V1\\Rpc\\Books\\Controller' => [
-            'service_name' => 'Books',
-            'http_methods' => [
-                0 => 'GET',
-            ],
-            'route_name' => 'library.rpc.books',
-        ],
-        'Library\\V1\\Rpc\\Authors\\Controller' => [
-            'service_name' => 'Authors',
-            'http_methods' => [
-                0 => 'GET',
-            ],
-            'route_name' => 'library.rpc.authors',
-        ],
-        'Library\\V1\\Rpc\\Book\\Controller' => [
-            'service_name' => 'Book',
-            'http_methods' => [
-                0 => 'GET',
-                1 => 'POST',
-            ],
-            'route_name' => 'library.rpc.book',
-        ],
-    ],
+    'zf-rpc' => [],
     'zf-content-negotiation' => [
         'controllers' => [
-            'Library\\V1\\Rpc\\Books\\Controller' => 'Json',
-            'Library\\V1\\Rpc\\Authors\\Controller' => 'Json',
-            'Library\\V1\\Rpc\\Book\\Controller' => 'Json',
             'Library\\V1\\Rest\\Boks\\Controller' => 'HalJson',
             'Library\\V1\\Rest\\Athor\\Controller' => 'HalJson',
+            'Library\\V1\\Rest\\Books\\Controller' => 'HalJson',
+            'Library\\V1\\Rest\\Author\\Controller' => 'HalJson',
         ],
         'accept_whitelist' => [
-            'Library\\V1\\Rpc\\Books\\Controller' => [
-                0 => 'application/vnd.library.v1+json',
-                1 => 'application/json',
-                2 => 'application/*+json',
-            ],
-            'Library\\V1\\Rpc\\Authors\\Controller' => [
-                0 => 'application/vnd.library.v1+json',
-                1 => 'application/json',
-                2 => 'application/*+json',
-            ],
-            'Library\\V1\\Rpc\\Book\\Controller' => [
-                0 => 'application/vnd.library.v1+json',
-                1 => 'application/json',
-                2 => 'application/*+json',
-            ],
             'Library\\V1\\Rest\\Boks\\Controller' => [
                 0 => 'application/vnd.library.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ],
             'Library\\V1\\Rest\\Athor\\Controller' => [
+                0 => 'application/vnd.library.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
+            'Library\\V1\\Rest\\Books\\Controller' => [
+                0 => 'application/vnd.library.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
+            'Library\\V1\\Rest\\Author\\Controller' => [
                 0 => 'application/vnd.library.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ],
         ],
         'content_type_whitelist' => [
-            'Library\\V1\\Rpc\\Books\\Controller' => [
-                0 => 'application/vnd.library.v1+json',
-                1 => 'application/json',
-            ],
-            'Library\\V1\\Rpc\\Authors\\Controller' => [
-                0 => 'application/vnd.library.v1+json',
-                1 => 'application/json',
-            ],
-            'Library\\V1\\Rpc\\Book\\Controller' => [
-                0 => 'application/vnd.library.v1+json',
-                1 => 'application/json',
-            ],
             'Library\\V1\\Rest\\Boks\\Controller' => [
                 0 => 'application/vnd.library.v1+json',
                 1 => 'application/json',
             ],
             'Library\\V1\\Rest\\Athor\\Controller' => [
+                0 => 'application/vnd.library.v1+json',
+                1 => 'application/json',
+            ],
+            'Library\\V1\\Rest\\Books\\Controller' => [
+                0 => 'application/vnd.library.v1+json',
+                1 => 'application/json',
+            ],
+            'Library\\V1\\Rest\\Author\\Controller' => [
                 0 => 'application/vnd.library.v1+json',
                 1 => 'application/json',
             ],
@@ -167,14 +118,7 @@ return [
             ],
         ],
     ],
-    'zf-content-validation' => [
-        'Library\\V1\\Rpc\\Books\\Controller' => [
-            'input_filter' => 'Library\\V1\\Rpc\\Books\\Validator',
-        ],
-        'Library\\V1\\Rpc\\Book\\Controller' => [
-            'input_filter' => 'Library\\V1\\Rpc\\Book\\Validator',
-        ],
-    ],
+    'zf-content-validation' => [],
     'input_filter_specs' => [
         'Library\\V1\\Rpc\\Books\\Validator' => [
             0 => [
@@ -188,9 +132,11 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            \Library\V1\Rest\Book\BookResource::class => \Library\V1\Rest\Book\BookResourceFactory::class,
+            'Library\\V1\\Rest\\Book\\BookResource' => 'Library\\V1\\Rest\\Book\\BookResourceFactory',
             \Library\V1\Rest\Boks\BoksResource::class => \Library\V1\Rest\Boks\BoksResourceFactory::class,
             \Library\V1\Rest\Athor\AthorResource::class => \Library\V1\Rest\Athor\AthorResourceFactory::class,
+            \Library\V1\Rest\Books\BooksResource::class => \Library\V1\Rest\Books\BooksResourceFactory::class,
+            \Library\V1\Rest\Author\AuthorResource::class => \Library\V1\Rest\Author\AuthorResourceFactory::class,
         ],
     ],
     'zf-rest' => [
@@ -230,6 +176,42 @@ return [
             'collection_class' => \Library\V1\Rest\Athor\AthorCollection::class,
             'service_name' => 'athor',
         ],
+        'Library\\V1\\Rest\\Books\\Controller' => [
+            'listener' => \Library\V1\Rest\Books\BooksResource::class,
+            'route_name' => 'library.rest.books',
+            'route_identifier_name' => 'books_id',
+            'collection_name' => 'books',
+            'entity_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \Library\V1\Rest\Books\BooksEntity::class,
+            'collection_class' => \Library\V1\Rest\Books\BooksCollection::class,
+            'service_name' => 'Books',
+        ],
+        'Library\\V1\\Rest\\Author\\Controller' => [
+            'listener' => \Library\V1\Rest\Author\AuthorResource::class,
+            'route_name' => 'library.rest.author',
+            'route_identifier_name' => 'author_id',
+            'collection_name' => 'author',
+            'entity_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \Library\V1\Rest\Author\AuthorEntity::class,
+            'collection_class' => \Library\V1\Rest\Author\AuthorCollection::class,
+            'service_name' => 'Author',
+        ],
     ],
     'zf-hal' => [
         'metadata_map' => [
@@ -255,6 +237,30 @@ return [
                 'entity_identifier_name' => 'id',
                 'route_name' => 'library.rest.athor',
                 'route_identifier_name' => 'athor_id',
+                'is_collection' => true,
+            ],
+            \Library\V1\Rest\Books\BooksEntity::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'library.rest.books',
+                'route_identifier_name' => 'books_id',
+                'hydrator' => \DoctrineModule\Stdlib\Hydrator\DoctrineObject::class,
+            ],
+            \Library\V1\Rest\Books\BooksCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'library.rest.books',
+                'route_identifier_name' => 'books_id',
+                'is_collection' => true,
+            ],
+            \Library\V1\Rest\Author\AuthorEntity::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'library.rest.author',
+                'route_identifier_name' => 'author_id',
+                'hydrator' => \DoctrineModule\Stdlib\Hydrator\DoctrineObject::class,
+            ],
+            \Library\V1\Rest\Author\AuthorCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'library.rest.author',
+                'route_identifier_name' => 'author_id',
                 'is_collection' => true,
             ],
         ],
