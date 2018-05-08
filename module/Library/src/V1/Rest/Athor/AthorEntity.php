@@ -1,6 +1,7 @@
 <?php
 namespace Library\V1\Rest\Athor;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,18 +24,18 @@ class AthorEntity
     protected $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Library\V1\Rest\Boks\BoksEntity", mappedBy="athor")
-     * @ORM\JoinColumn(name="id", referencedColumnName="author_id")
+     * @ORM\OneToMany(targetEntity="Library\V1\Rest\Boks\BoksEntity", mappedBy="author")
      */
     protected $books;
 
+
     /**
      * Constructor.
-
+    */
     public function __construct()
     {
         $this->books = new ArrayCollection();
-    }*/
+    }
 
 
     // Returns ID of this comment.
@@ -70,7 +71,7 @@ class AthorEntity
      */
     public function getBooks()
     {
-        return $this->books;
+        return $this->books->toArray();
     }
 
     /**

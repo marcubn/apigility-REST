@@ -23,8 +23,8 @@ class BoksEntity
     protected $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Library\V1\Rest\Athor\AthorEntity", inversedBy="boks")
-     * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Library\V1\Rest\Athor\AthorEntity", inversedBy="books")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", nullable=FALSE)
      */
     protected $author;
 
@@ -66,7 +66,7 @@ class BoksEntity
     public function setAuthor($author)
     {
         $this->author = $author;
-        $author->addBook($this);
+        return $this;
     }
 
 }

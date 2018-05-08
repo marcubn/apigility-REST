@@ -55,16 +55,22 @@ class AthorResource extends AbstractResourceListener
      */
     public function fetch($id)
     {
+        if (!$this->validateId()) {
+            return new ApiProblem(400, 'incorect parameter');
+        }
+
         $repo = $this->em->getRepository(AthorEntity::class);
         $author = $repo->find($id);
         $name = $author->getName();
         $books = $author->getBooks();
-        var_dump($books);
-        exit;
-        var_dump($author->getName());exit;
-        if (!$this->validateId()) {
-            return new ApiProblem(405, 'The GET method has not been defined for individual resources');
+        
+        $authorBooks = [];
+        foreach ($books as $book) {
+            $authorBooks[] = $book->getTitle();
         }
+        return ['Author' => $name, 'Books' => $authorBooks];
+
+
     }
 
     /**
