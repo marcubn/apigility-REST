@@ -56,11 +56,14 @@ class BooksResource extends AbstractResourceListener
     public function fetch($id)
     {
         if (!$this->validateId()) {
-            return new ApiProblem(400, 'incorect parameter');
+            return new ApiProblem(400, 'Incorect parameter');
         }
 
         $repo = $this->em->getRepository(BooksEntity::class);
         $book = $repo->find($id);
+        if (!$book) {
+            return new ApiProblem(404, 'Current id does not correspond to a book');
+        }
         $title = $book->getTitle();
         $author = $book->getAuthor()->getName();
         return ["Book Title" => $title, "Author" => $author];
