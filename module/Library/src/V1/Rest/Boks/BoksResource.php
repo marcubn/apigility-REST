@@ -55,9 +55,9 @@ class BoksResource extends AbstractResourceListener
      */
     public function fetch($id)
     {
-        $repo = $this->em->getRepository(Book::class);
+        $repo = $this->em->getRepository(BoksEntity::class);
         $book = $repo->find($id);
-        var_dump($book);exit;
+        var_dump($book->getAuthor()->getName());exit;
         if (!$this->validateId()) {
             return new ApiProblem(405, 'The GET method has not been defined for individual resources');
         }
